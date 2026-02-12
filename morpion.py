@@ -440,4 +440,7 @@ class MorpionPyQt(QWidget):
                 with open("pseudos.txt", "w") as f:
                     for l in lignes:
                         if l != pseudo_a_suppr: f.write(l + "\n")
+
                 self.charger_pseudos_listes()
+
+#grosse biiiite
