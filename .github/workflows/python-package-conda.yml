@@ -1,0 +1,53 @@
+import numpy as np
+L = [["O"," ","O"],["O","X","X"],[" ","X"," "]]
+
+class IA():
+    def __init__(self,joueur,jeu,adv):
+        """
+        Cette fonction permet d'initialiser les paramètre de la classe.
+        self.joueur = ressence la forme du joueur ; type = str
+        self.jeu = ressence la partie en cours ; type list
+        self;adv = ressence la forme adversaire ; type str
+        """
+        self.joueur = joueur
+        self.jeu = jeu
+        self.adv = adv
+    def possibility(self):
+        """
+        Permet de générer les possibilitées de jeu pour le joueur
+        """
+        P = []
+        for i in range(3):
+            for k in range(3):
+                if self.jeu[i][k] == " ":
+                    N = [ligne[:] for ligne in self.jeu]
+                    N[i][k] = self.joueur 
+                    P.append(np.array(N))
+        return P  
+    def verifier(self, plateau, joueur):
+        """
+        Permet de vérifier si une diagonales, une lignes ou un colonnes est un coups gagant pour le joueur ou l'adversaire.
+        plateau = la grille dont on veut vérifier le résultat ; type = liste
+        joueur = joueur dont on aimerait étudier les coups de réussite dans ce jeu ; type  = str
+        """
+        for i in range(3):
+            if all(plateau[i][j] == joueur for j in range(3)): return True
+            if all(plateau[j][i] == joueur for j in range(3)): return True
+        if plateau[0][0] == plateau[1][1] == plateau[2][2] == joueur: return True
+        if plateau[0][2] == plateau[1][1] == plateau[2][0] == joueur: return True
+        return False
+    def str(self):
+        """
+        Permet de précisé si une possibilitées de coup peu donner un coup gagnant, perdant ou permet de continuier la partie.
+        """
+        possibilites = self.possibility() 
+        
+        for p in possibilites: 
+            if self.verifier(p, self.joueur):
+                print("Coup gagnant","\n",p)
+            elif self.verifier(p, self.adv):
+                print("Coup perdant","\n",p)
+            else:
+                print("Le jeu continue","\n",p)
+O = IA("O",L,"X")    
+print(O.str())
