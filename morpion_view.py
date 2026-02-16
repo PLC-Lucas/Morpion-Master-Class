@@ -75,7 +75,6 @@ class MorpionView(QWidget):
         self.btn_humain.setStyleSheet(style_bleu)
         
         self.btn_musique = QPushButton("MUSIQUE : ON")
-        # On initialise le style par défaut
         self.update_music_button_style(True)
         
         self.btn_quitter = QPushButton("QUITTER LE JEU")
@@ -173,7 +172,7 @@ class MorpionView(QWidget):
             btn.setFont(QFont('Arial', 45, QFont.Weight.Bold))
             btn.setStyleSheet("QPushButton { background-color: #34495E; color: white; border-radius: 20px; border: 3px solid #2C3E50; }")
             grille.addWidget(btn, i // 3, i % 3)
-            self.boutons.append(btn) # IMPORTANT
+            self.boutons.append(btn)
             
         layout.addLayout(grille)
 
