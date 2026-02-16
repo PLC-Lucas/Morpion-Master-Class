@@ -20,6 +20,8 @@ class MorpionModel:
         """Remet le plateau à zéro pour une nouvelle manche."""
         self.plateau = [""] * 9
         self.joueur_actuel = "X"
+        # cree une variable qui a chaque fois qu'on relance add+1 en fonction de pair 
+        #  ou impaire changer le joueur qui demarre pour avoir une alternace dans le mode player vs player
 
     def charger_pseudos_fichier(self):
         """Lit le fichier pseudos.txt et retourne une liste."""
@@ -61,4 +63,5 @@ class MorpionModel:
         plateau_temp = self.plateau[:]
         plateau_temp[index] = joueur
         return any(plateau_temp[a] == plateau_temp[b] == plateau_temp[c] == joueur for a,b,c in v)
+
 
