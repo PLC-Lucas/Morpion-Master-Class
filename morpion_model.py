@@ -1,6 +1,7 @@
 import os
 
 class MorpionModel:
+# --- LOGIQUE AFFICHAGE (Ilyann & Benjamin) ---
     def __init__(self):
         """
         Gère les données : plateau, scores, pseudos.
@@ -42,4 +43,21 @@ class MorpionModel:
             with open("pseudos.txt", "w") as f:
                 for l in lignes:
                     if l != pseudo_a_suppr:
+
                         f.write(l + "\n")
+
+# --- LOGIQUE IA (Nayla & Hugo / Optimisation : Rayan & Lucas) ---
+
+    def get_possibilities(self):
+        """ Retourne les index (0-8) des cases vides. """
+        return [i for i, case in enumerate(self.plateau) if case == ""]
+
+    def simuler_victoire(self, index, joueur):
+        """ 
+        Optimisation : Simule un coup pour vérifier s'il est gagnant.
+        Permet de ne pas modifier le vrai plateau pendant la réflexion.
+        """
+        v = [(0,1,2), (3,4,5), (6,7,8), (0,3,6), (1,4,7), (2,5,8), (0,4,8), (2,4,6)]
+        plateau_temp = self.plateau[:]
+        plateau_temp[index] = joueur
+        return any(plateau_temp[a] == plateau_temp[b] == plateau_temp[c] == joueur for a,b,c in v)
