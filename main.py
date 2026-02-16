@@ -6,15 +6,12 @@ from Controller.morpion_controller import MorpionController
 
 def main():
     app = QApplication(sys.argv)
-    
-    # Instanciation MVC
+
     model = MorpionModel()
     view = MorpionView()
-    
-    # On donne tout au contrôleur
+
     controller = MorpionController(model, view)
-    
-    # On connecte la vue au contrôleur (pour le closeEvent)
+
     view.set_controller(controller)
 
     view.show()
