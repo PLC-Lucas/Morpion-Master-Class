@@ -61,3 +61,4 @@ class MorpionModel:
         plateau_temp = self.plateau[:]
         plateau_temp[index] = joueur
         return any(plateau_temp[a] == plateau_temp[b] == plateau_temp[c] == joueur for a,b,c in v)
+
