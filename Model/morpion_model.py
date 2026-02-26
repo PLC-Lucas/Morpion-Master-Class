@@ -50,13 +50,3 @@ class MorpionModel:
                 for l in lignes:
                     if l.strip() != pseudo_a_suppr:
                         f.write(l + "\n")
-
-    # --- IA LOGIQUE (Nayla & Hugo) ---
-    def get_possibilities(self):
-        return [i for i, case in enumerate(self.plateau) if case == ""]
-
-    def simuler_victoire(self, index, joueur):
-        v = [(0,1,2), (3,4,5), (6,7,8), (0,3,6), (1,4,7), (2,5,8), (0,4,8), (2,4,6)]
-        plateau_temp = self.plateau[:]
-        plateau_temp[index] = joueur
-        return any(plateau_temp[a] == plateau_temp[b] == plateau_temp[c] == joueur for a,b,c in v)

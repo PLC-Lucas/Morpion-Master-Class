@@ -2,6 +2,7 @@ import os, random
 from PyQt6.QtCore import QTimer, QUrl
 from PyQt6.QtMultimedia import QMediaPlayer, QAudioOutput
 from PyQt6.QtWidgets import QMessageBox
+from Model.ai_minmax import MinMaxIA
 
 class MorpionController:
     def __init__(self, model, view):
@@ -194,19 +195,24 @@ class MorpionController:
                     QTimer.singleShot(700, self.ia_move)
 
     def ia_move(self):
-        # SÉCURITÉ : Si on a quitté la partie, l'IA ne doit plus jouer
-        if self.view.stack.currentIndex() != 2: return
+        # SÉCURITÉ : Si on a quitté la partie ou si une annonce est affichée, l'IA ne doit plus jouer.
+        if self.view.stack.currentIndex() != 2 or self.view.label_annonce.text() != "":
+            return
 
-        if self.view.label_annonce.text() != "": return
         m = self.model
-        ia, adv = m.joueur_actuel, ("X" if m.joueur_actuel == "O" else "O")
-        pos = m.get_possibilities()
-        if not pos: return
-        for p in pos:
-            if m.simuler_victoire(p, ia): self.clic_bouton(p); return
-        for p in pos:
-            if m.simuler_victoire(p, adv): self.clic_bouton(p); return
-        self.clic_bouton(4 if 4 in pos else random.choice(pos))
+        ia_symbol = m.joueur_actuel
+        # Déterminer le symbole de l'adversaire
+        human_symbol = "O" if ia_symbol == "X" else "X"
+
+        # On instancie notre nouvelle IA MinMax
+        ai = MinMaxIA(ai_symbol=ia_symbol, human_symbol=human_symbol)
+
+        # On demande à l'IA de choisir le meilleur coup
+        best_move_index = ai.get_best_move(m.plateau)
+
+        # On joue le coup. On vérifie que le coup est valide.
+        if best_move_index is not None and m.plateau[best_move_index] == "":
+            self.clic_bouton(best_move_index)
 
     def fin_manche(self, res):
         m, v = self.model, self.view
